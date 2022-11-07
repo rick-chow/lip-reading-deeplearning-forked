@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from tensorflow.contrib.framework.python.ops import add_arg_scope
+from tf_slim import arg_scope
 from tensorflow.python.framework import ops
 from tensorflow.python.ops import array_ops
 from tensorflow.python.ops import math_ops
@@ -13,7 +13,8 @@ from tensorflow.python.ops import nn
 from tensorflow.python.ops import nn_ops
 from tensorflow.python.util.deprecation import deprecated
 
-import tensorflow as tf
+import tensorflow
+tf = tensorflow.compat.v1
 
 # def contrastive_loss(onehot_labels, logits, margin=1, scope=None):
 #     """With this definition the loss will be calculated.

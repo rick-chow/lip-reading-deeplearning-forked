@@ -41,9 +41,10 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow as tf
+import tensorflow
+tf = tensorflow.compat.v1
 
-slim = tf.contrib.slim
+import tf_slim as slim
 LSTM_status = False
 
 
@@ -59,7 +60,7 @@ def lipread_mouth_arg_scope(is_training, weight_decay=0.0005):
   # Add normalizer_fn=slim.batch_norm if Batch Normalization is required!
   with slim.arg_scope([slim.conv3d, slim.fully_connected],
                       activation_fn=None,
-                      weights_initializer=tf.contrib.layers.variance_scaling_initializer(factor=1.0, mode='FAN_AVG'),
+                      weights_initializer=tensorflow.keras.initializers.variance_scaling(scale=1.0, mode='fan_avg'),
                       weights_regularizer=slim.l2_regularizer(weight_decay),
                       normalizer_fn=slim.batch_norm,
                       biases_initializer=tf.zeros_initializer()):
@@ -158,7 +159,7 @@ def mouth_cnn_lstm(inputs,
     if LSTM_status:
       ##### LSTM-1 #####
       # use sequence_length=X_lengths argument in tf.nn.dynamic_rnn if necessary.
-      cell_1 = tf.contrib.rnn.core_rnn_cell.LSTMCell(num_units=128, state_is_tuple=True)
+      cell_1 = tf.nn.rnn_cell.LSTMCell(num_units=128, state_is_tuple=True)
       outputs, last_states = tf.nn.dynamic_rnn(
         cell=cell_1,
         dtype=tf.float32,
